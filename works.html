@@ -9,106 +9,65 @@
 
   <style>
     * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      background: #fff;
-      color: #111;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      line-height: 1.5;
-    }
+    html, body { margin: 0; background: #fff; color: #111; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; line-height: 1.5; }
     a { color: inherit; text-decoration: none; }
 
     /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      background: #fff;
-      border-bottom: 1px solid #e5e5e5;
-    }
-    .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .site-title { font-weight: 600; }
+    header { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #e5e5e5; }
+    .nav { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .site-title { font-weight: 600; white-space: nowrap; }
     .menu { display: flex; gap: 22px; font-size: 14px; letter-spacing: 1.2px; }
     .menu a { text-transform: uppercase; opacity: .85; }
     .menu a:hover, .menu a[aria-current="page"] { opacity: 1; font-weight: 600; }
 
-    /* MAIN */
-    main {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .works-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5cm;   /* spacing between boxes */
-    }
+    /* MAIN: single centered column */
+    main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .works-column { display: flex; flex-direction: column; align-items: center; gap: 1.5cm; } /* ~1.5 cm gaps */
+
+    /* Cards: consistent look; horizontal vs vertical via aspect-ratio */
     .card {
       width: 100%;
-      max-width: 600px;   /* control box width */
-      height: 350px;      /* make them same height */
+      max-width: 640px;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       background: #f8f8f8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
+      display: block;
     }
+    .card.h { aspect-ratio: 16 / 9; } /* horizontal */
+    .card.v { aspect-ratio: 3 / 4; }  /* vertical   */
+
     .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .3s ease;
     }
+    .card:hover img { transform: scale(1.02); }
+
     .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 10px;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      font-size: 14px;
-      text-align: center;
+      position: absolute; inset: 0; display: flex; align-items: end; padding: 12px;
+      background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 50%);
+      color: #fff; opacity: 0; transition: opacity .25s ease;
     }
+    .card:hover .overlay { opacity: 1; }
+    .label { background: rgba(0,0,0,.55); padding: 8px 10px; border-radius: 8px; font-size: 14px; }
+    .label .title { font-weight: 600; }
+    .label .meta { opacity: .85; }
 
     /* FOOTER */
     footer { border-top: 1px solid #e5e5e5; background: #fff; }
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 14px 20px 20px;
-      display: grid;
-      place-items: center;
-      gap: 6px;
-      text-align: center;
-    }
-    .footer-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      background: #fafafa center/cover no-repeat;
-      background-image: url("assets/favicon.jpg");
-    }
-    .footer-brand { font-weight: 600; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px 18px; display: grid; place-items: center; gap: 6px; text-align: center; color: #444; }
+    .footer-logo { width: 64px; height: 64px; border-radius: 50%; border: 1px solid #ddd; background: #fafafa center/cover no-repeat; background-image: url("assets/favicon.jpg"); }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; }
     .footer-rights { font-size: 13px; color: #666; }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
+  <!-- Header -->
   <header>
     <div class="nav">
       <div class="site-title">Lenny Filler · Puppet-X</div>
-      <nav class="menu">
+      <nav class="menu" aria-label="primary">
         <a href="index.html">HOME</a>
         <a href="works.html" aria-current="page">WORKS</a>
         <a href="words.html">WORDS</a>
@@ -118,26 +77,48 @@
     </div>
   </header>
 
-  <!-- MAIN -->
+  <!-- Works: single column, 3 vertical + 3 horizontal -->
   <main>
     <div class="works-column">
-      <div class="card">
-        <img src="assets/project1.jpg" alt="Cardboard Marionette">
-        <div class="overlay">Cardboard Marionette · 2025</div>
-      </div>
-      <div class="card">
-        <img src="assets/project2.jpg" alt="Market Shadows">
-        <div class="overlay">Market Shadows · 2024</div>
-      </div>
-      <div class="card">
-        <img src="assets/project3.jpg" alt="Motion Study">
-        <div class="overlay">Motion Study · 2023</div>
-      </div>
-      <!-- Add more cards as needed -->
+      <!-- Vertical -->
+      <a class="card v" href="albums/florence.html">
+        <img src="assets/florence-cover.jpg" alt="Florence — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Florence</div><div class="meta">Album</div></div></div>
+      </a>
+
+      <!-- Horizontal -->
+      <a class="card h" href="albums/jack.html">
+        <img src="assets/jack-cover.jpg" alt="Jack — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Jack</div><div class="meta">Album</div></div></div>
+      </a>
+
+      <!-- Vertical -->
+      <a class="card v" href="albums/girl.html">
+        <img src="assets/girl-cover.jpg" alt="Girl — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Girl</div><div class="meta">Album</div></div></div>
+      </a>
+
+      <!-- Horizontal -->
+      <a class="card h" href="albums/grandpa.html">
+        <img src="assets/grandpa-cover.jpg" alt="Grandpa — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Grandpa</div><div class="meta">Album</div></div></div>
+      </a>
+
+      <!-- Vertical -->
+      <a class="card v" href="albums/polimer-clay.html">
+        <img src="assets/polimer-clay-cover.jpg" alt="Polimer Clay — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Polimer Clay</div><div class="meta">Album</div></div></div>
+      </a>
+
+      <!-- Horizontal -->
+      <a class="card h" href="albums/welding.html">
+        <img src="assets/welding-cover.jpg" alt="Welding — album cover" />
+        <div class="overlay"><div class="label"><div class="title">Welding</div><div class="meta">Album</div></div></div>
+      </a>
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer>
     <div class="footer-inner">
       <span class="footer-logo" aria-hidden="true"></span>
