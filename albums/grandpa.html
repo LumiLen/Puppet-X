@@ -1,1 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lenny Filler · Puppet-X — Florence</title>
+  <link rel="icon" type="image/jpeg" href="../assets/favicon.jpg" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #000; color: #fff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+
+    /* Header (same vibe as main site, on dark bg) */
+    header { position: sticky; top: 0; z-index: 10; background: #000; border-bottom: 1px solid #222; }
+    .nav { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .site-title { font-weight: 600; white-space: nowrap; }
+    .menu { display: flex; gap: 18px; font-size: 14px; letter-spacing: 1.2px; }
+    .menu a { color: #ddd; text-transform: uppercase; opacity: .85; text-decoration: none; }
+    .menu a:hover { opacity: 1; }
+
+    /* Back link row */
+    .topbar { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; color:#bbb; }
+    .topbar a { color:#bbb; text-decoration: none; }
+    .topbar a:hover { color:#fff; }
+
+    /* Viewer */
+    main { min-height: calc(100vh - 140px); display: grid; place-items: center; padding: 16px; }
+    .viewer {
+      width: min(92vw, 1200px);
+      height: min(72vh, 78vw);
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+    .viewer img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      transition: opacity .2s ease;
+    }
+
+    /* Arrows */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px; height: 46px;
+      border-radius: 999px;
+      border: 1px solid #444;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      display: grid; place-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .arrow:hover { background: rgba(255,255,255,.08); }
+    .arrow:active { transform: translateY(-50%) scale(.98); }
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
+
+    /* Counter */
+    .counter {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 10px; border-radius: 999px;
+      font-size: 13px; color:#eee;
+      background: rgba(0,0,0,.5);
+      border: 1px solid #444;
+    }
+
+    /* Caption (optional; uses filename) */
+    .caption {
+      position: absolute; bottom: 10px; right: 10px;
+      font-size: 13px; color:#ddd; background: rgba(0,0,0,.5);
+      border: 1px solid #444; padding: 6px 10px; border-radius: 8px;
+      max-width: 40ch; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
+    }
+
+    /* Footer */
+    footer { border-top: 1px solid #222; background: #000; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 12px 16px 20px; display: grid; place-items: center; gap: 6px; color: #aaa; text-align: center; }
+    .footer-logo { width: 64px; height: 64px; border-radius: 50%; border: 1px solid #333; background: #111 center/cover no-repeat; background-image: url("../assets/favicon.jpg"); }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; color:#ddd; }
+    .footer-rights { font-size: 13px; color: #888; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div class="site-title">Lenny Filler · Puppet-X</div>
+      <nav class="menu" aria-label="primary">
+        <a href="../index.html">Home</a>
+        <a href="../works.html">Works</a>
+        <a href="../words.html">Words</a>
+        <a href="../gear.html">Gear</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Back + Title -->
+  <div class="topbar">
+    <a href="../works.html">← Back to Works</a>
+    <div id="albumTitleBar">Florence</div>
+  </div>
+
+  <!-- Viewer -->
+  <main>
+    <div class="viewer" id="viewer">
+      <button class="arrow left" id="prev" aria-label="Previous image">‹</button>
+      <img id="photo" src="" alt="" />
+      <button class="arrow right" id="next" aria-label="Next image">›</button>
+
+      <div class="counter" id="counter">1 / 1</div>
+      <div class="caption" id="caption"></div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo" aria-hidden="true"></span>
+      <div class="footer-brand">lenZ</div>
+      <div class="footer-rights">All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ====== CONFIG: set album title + images here ====== */
+    const albumTitle = "Grandpa (2016)";
+    const images = [
+      // Put your real files from /assets here:
+      "assets/gp1.jpg",
+      "assets/gp2.jpg",
+      "assets/gp3.jpg",
+      // add more...
+    ];
+    /* ================================================ */
+
+    // Basic state
+    let i = 0;
+    const photo = document.getElementById('photo');
+    const counter = document.getElementById('counter');
+    const caption = document.getElementById('caption');
+    const titleBar = document.getElementById('albumTitleBar');
+
+    function fileNameOnly(path) {
+      const n = path.split('/').pop();
+      return decodeURIComponent(n);
+    }
+
+    function show(idx) {
+      if (!images.length) return;
+      i = (idx + images.length) % images.length;
+      const src = "../" + images[i];   // images live in /assets at repo root
+      photo.style.opacity = 0;
+      const img = new Image();
+      img.onload = () => {
+        photo.src = src;
+        photo.alt = `${albumTitle} – ${fileNameOnly(images[i])}`;
+        counter.textContent = `${i+1} / ${images.length}`;
+        caption.textContent = fileNameOnly(images[i]);
+        photo.style.opacity = 1;
+      };
+      img.src = src;
+    }
+
+    function next() { show(i + 1); }
+    function prev() { show(i - 1); }
+
+    document.getElementById('next').addEventListener('click', next);
+    document.getElementById('prev').addEventListener('click', prev);
+
+    // Keyboard
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'Escape')     window.location.href = '../works.html';
+    });
+
+    // Touch (simple swipe)
+    let touchStartX = null;
+    document.getElementById('viewer').addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, {passive: true});
+    document.getElementById('viewer').addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (dx < -30) next();
+      if (dx >  30) prev();
+      touchStartX = null;
+    }, {passive: true});
+
+    // Init
+    titleBar.textContent = albumTitle;
+    show(0);
+  </script>
+</body>
+</html>
 
