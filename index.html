@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LenZ</title>
 
-  <!-- FAVICON (replace the href value with your real file path, e.g. assets/favicon.png) -->
-  <link rel="icon" type="image/png" href="assets/REPLACE_WITH_FAVICON_FILENAME" />
+  <!-- FAVICON -->
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
 
   <style>
     :root {
@@ -22,6 +22,16 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
     a { color: inherit; text-decoration: none; }
+
+    .topline {
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: .5px;
+      padding: 6px 12px;
+      background: #fafafa;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -52,10 +62,8 @@
       display: inline-block;
       border: 1px solid #ddd;
       background: #fafafa center/cover no-repeat;
+      background-image: url("assets/favicon.jpg");
     }
-    /* Replace background-image URL below once you have your favicon file */
-    .brand-logo { background-image: url("assets/REPLACE_WITH_FAVICON_FILENAME"); }
-
     .menu {
       display: flex;
       gap: 22px;
@@ -76,11 +84,10 @@
       display: grid;
       place-items: center;
     }
-    /* The image box: ~15cm x 5cm on print; on screen we keep that physical size hint plus responsive cap */
     .hero {
-      width: 15cm;        /* requested physical length */
-      height: 5cm;        /* requested physical height  */
-      max-width: 100%;    /* keep responsive on small screens */
+      width: 15cm;
+      height: 5cm;
+      max-width: 100%;
       object-fit: contain;
       object-position: center;
       display: block;
@@ -109,8 +116,7 @@
       flex: none;
       border: 1px solid #ddd;
       background: #fafafa center/cover no-repeat;
-      /* Replace background-image URL once you have your favicon file */
-      background-image: url("assets/REPLACE_WITH_FAVICON_FILENAME");
+      background-image: url("assets/favicon.jpg");
     }
     .sr-only {
       position: absolute;
@@ -121,6 +127,9 @@
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
+
+  <!-- TOP LINE -->
+  <div class="topline">Lenny Filler  ·  Puppet-X</div>
 
   <header>
     <div class="nav">
@@ -140,13 +149,10 @@
 
   <main id="main">
     <section class="frame" id="home">
-      <!-- MAIN IMAGE
-           Replace the src value below with your actual file path, e.g. assets/hero.jpg
-           You can also put a transparent PNG here. -->
       <img
         class="hero"
-        src="assets/REPLACE_WITH_MAIN_IMAGE_FILENAME"
-        alt="Central artwork placeholder (15cm × 5cm)"
+        src="assets/brnd.jpg"
+        alt="Central artwork (15cm × 5cm)"
       />
     </section>
   </main>
@@ -159,4 +165,3 @@
   </footer>
 </body>
 </html>
-
