@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LenZ</title>
+  <title>Lenny Filler · Puppet-X</title>
 
-  <!-- FAVICON -->
-  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
+  <!-- (No top favicon or brand in the header, per request) -->
 
   <style>
     :root {
@@ -23,15 +22,7 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    .topline {
-      text-align: center;
-      font-size: 14px;
-      letter-spacing: .5px;
-      padding: 6px 12px;
-      background: #fafafa;
-      border-bottom: 1px solid #e5e5e5;
-    }
-
+    /* HEADER / NAV BAR */
     header {
       position: sticky;
       top: 0;
@@ -46,26 +37,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 20px;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .site-title {
       font-weight: 600;
-      letter-spacing: .4px;
-    }
-    .brand-logo {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      overflow: hidden;
-      display: inline-block;
-      border: 1px solid #ddd;
-      background: #fafafa center/cover no-repeat;
-      background-image: url("assets/favicon.jpg");
+      letter-spacing: .3px;
+      white-space: nowrap;
     }
     .menu {
       display: flex;
+      flex-wrap: wrap;
       gap: 22px;
       font-size: 14px;
       letter-spacing: 1.2px;
@@ -73,70 +54,87 @@
     .menu a { text-transform: uppercase; opacity: .85; }
     .menu a:hover { opacity: 1; }
 
+    /* MAIN */
     main {
-      min-height: calc(100vh - 160px);
+      min-height: calc(100vh - 200px);
       display: grid;
       place-items: center;
       padding: 40px 20px;
     }
     .frame {
       width: min(100%, var(--max-content-width));
+      /* Keep a ~3:1 shape similar to ~15cm × 5cm, but responsive */
+      aspect-ratio: 3 / 1;
+      border: 1px solid #eee;
+      overflow: hidden;
+      background: #f7f7f7;
       display: grid;
       place-items: center;
     }
-    .hero {
-      width: 15cm;
-      height: 5cm;
-      max-width: 100%;
-      object-fit: contain;
+    /* Make sure the image totally COVERS the frame */
+    .frame > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;      /* key: cover the frame */
       object-position: center;
       display: block;
-      background: #f7f7f7;
-      border: 1px solid #eee;
     }
+
+    /* FOOTER */
     footer {
       border-top: 1px solid #e5e5e5;
       background: #fff;
     }
     .footer-inner {
-      max-width: var(--max-content-width);
+      max-width: var(--max-content_width);
       margin: 0 auto;
-      padding: 22px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      padding: 26px 20px 40px;
+      display: grid;
+      place-items: center;
+      gap: 10px;
       color: #444;
-      font-size: 14px;
+      text-align: center;
     }
     .footer-logo {
-      width: 30px;
-      height: 30px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       overflow: hidden;
-      flex: none;
       border: 1px solid #ddd;
       background: #fafafa center/cover no-repeat;
-      background-image: url("assets/favicon.jpg");
+      background-image: url("assets/favicon.jpg"); /* footer favicon only */
     }
+    .footer-brand {
+      font-weight: 600;
+      letter-spacing: .4px;
+      text-transform: none;   /* as requested: “lenZ” styling preserved */
+    }
+    .footer-rights {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* ACCESSIBILITY */
     .sr-only {
       position: absolute;
       width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
       clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* SMALL SCREENS */
+    @media (max-width: 560px) {
+      .site-title { font-size: 14px; }
+      .menu { gap: 14px; font-size: 13px; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- TOP LINE -->
-  <div class="topline">Lenny Filler  ·  Puppet-X</div>
-
+  <!-- HEADER: Title and menu on the same bar -->
   <header>
     <div class="nav">
-      <div class="brand">
-        <span class="brand-logo" aria-hidden="true"></span>
-        <span>LenZ</span>
-      </div>
+      <div class="site-title">Lenny Filler · Puppet-X</div>
       <nav class="menu" aria-label="primary">
         <a href="#home">HOME</a>
         <a href="#works">WORKS</a>
@@ -147,20 +145,20 @@
     </div>
   </header>
 
+  <!-- MAIN IMAGE (covers the frame) -->
   <main id="main">
     <section class="frame" id="home">
-      <img
-        class="hero"
-        src="assets/brnd.jpg"
-        alt="Central artwork (15cm × 5cm)"
-      />
+      <!-- Use your centered brand image -->
+      <img src="assets/brnd.jpg" alt="Brand image" />
     </section>
   </main>
 
+  <!-- FOOTER with favicon and text under it -->
   <footer>
     <div class="footer-inner">
       <span class="footer-logo" aria-hidden="true"></span>
-      <span>LenZ — All rights reserved.</span>
+      <div class="footer-brand">lenZ</div>
+      <div class="footer-rights">All rights reserved.</div>
     </div>
   </footer>
 </body>
