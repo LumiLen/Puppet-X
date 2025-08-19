@@ -30,4 +30,101 @@
     .nav {
       max-width: 1200px;
       margin: 0 auto;
-      p
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-title {
+      font-weight: 600;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      font-size: 14px;
+      letter-spacing: 1.2px;
+    }
+    .menu a { text-transform: uppercase; opacity: .85; }
+    .menu a:hover { opacity: 1; }
+
+    /* MAIN IMAGE IN THE MIDDLE */
+    main {
+      min-height: calc(100vh - 200px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    main img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #e5e5e5;
+      background: #fff;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 26px 20px 40px;
+      display: grid;
+      place-items: center;
+      gap: 10px;
+      color: #444;
+      text-align: center;
+    }
+    .footer-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #fafafa center/cover no-repeat;
+      background-image: url("assets/favicon.jpg");
+    }
+    .footer-brand {
+      font-weight: 600;
+      letter-spacing: .4px;
+    }
+    .footer-rights {
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER: Title and menu on the same bar -->
+  <header>
+    <div class="nav">
+      <div class="site-title">Lenny Filler · Puppet-X</div>
+      <nav class="menu" aria-label="primary">
+        <a href="#home">HOME</a>
+        <a href="#works">WORKS</a>
+        <a href="#words">WORDS</a>
+        <a href="#gear">GEAR</a>
+        <a href="#contact">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN IMAGE (centered) -->
+  <main id="home">
+    <img src="assets/brnd.jpg" alt="Brand image" />
+  </main>
+
+  <!-- FOOTER with favicon and text under it -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo" aria-hidden="true"></span>
+      <div class="footer-brand">lenZ</div>
+      <div class="footer-rights">All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
