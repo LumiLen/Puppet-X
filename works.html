@@ -1,1 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lenny Filler · Puppet-X — Works</title>
+
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
+
+  <style>
+    /* Base */
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #fff; color: #111; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header (same bar style as your other pages) */
+    header { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #e5e5e5; }
+    .nav { max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .site-title { font-weight: 600; letter-spacing: .3px; white-space: nowrap; }
+    .menu { display: flex; gap: 22px; font-size: 14px; letter-spacing: 1.2px; }
+    .menu a { text-transform: uppercase; opacity: .85; }
+    .menu a:hover, .menu a[aria-current="page"] { opacity: 1; font-weight: 600; }
+
+    /* Page intro + filters */
+    .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+    .page-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .page-title { font-size: 1.6rem; font-weight: 600; letter-spacing: .2px; }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-btn {
+      border: 1px solid #ddd; background: #fafafa; padding: 6px 12px; border-radius: 999px;
+      font-size: 13px; letter-spacing: .5px; cursor: pointer;
+    }
+    .filter-btn[aria-pressed="true"] { background: #111; color: #fff; border-color: #111; }
+
+    /* Grid */
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    /* Simple responsive spans */
+    .card { grid-column: span 4; position: relative; border: 1px solid #eee; background: #f8f8f8; overflow: hidden; border-radius: 10px; }
+    @media (max-width: 1024px) { .card { grid-column: span 6; } }
+    @media (max-width: 640px)  { .card { grid-column: span 12; } }
+
+    .thumb {
+      width: 100%; height: 260px; object-fit: cover; display: block; background: #eaeaea;
+      transition: transform .35s ease;
+    }
+    .card:hover .thumb { transform: scale(1.03); }
+
+    .overlay {
+      position: absolute; inset: 0; display: flex; align-items: end; padding: 12px;
+      background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+      color: #fff; opacity: 0; transition: opacity .25s ease;
+    }
+    .card:hover .overlay { opacity: 1; }
+
+    .label {
+      background: rgba(0,0,0,.55); backdrop-filter: blur(2px);
+      padding: 8px 10px; border-radius: 8px; font-size: 13px; line-height: 1.3;
+    }
+    .label .title { font-weight: 600; }
+    .label .meta { opacity: .8; }
+
+    /* Lightbox (using <dialog>) */
+    dialog.lightbox {
+      width: min(92vw, 1100px); border: none; padding: 0; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+    dialog::backdrop { background: rgba(0,0,0,.6); }
+    .lb-inner { position: relative; background: #000; }
+    .lb-media { width: 100%; height: auto; display: block; max-height: 80vh; object-fit: contain; background:#000; }
+    .lb-close {
+      position: absolute; top: 10px; right: 10px; border: 1px solid #fff; color: #fff; background: rgba(0,0,0,.5);
+      border-radius: 999px; padding: 6px 10px; font-size: 14px; cursor: pointer;
+    }
+    .lb-caption { color: #fff; padding: 10px 14px; font-size: 14px; background: #000; }
+
+    /* Footer */
+    footer { border-top: 1px solid #e5e5e5; background: #fff; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px 18px; display: grid; place-items: center; gap: 6px; color: #444; text-align: center; }
+    .footer-logo { width: 64px; height: 64px; border-radius: 50%; border: 1px solid #ddd; background: #fafafa center/cover no-repeat; background-image: url("assets/favicon.jpg"); }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; }
+    .footer-rights { font-size: 13px; color: #666; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div class="site-title">Lenny Filler · Puppet-X</div>
+      <nav class="menu" aria-label="primary">
+        <a href="index.html">HOME</a>
+        <a href="works.html" aria-current="page">WORKS</a>
+        <a href="words.html">WORDS</a>
+        <a href="gear.html">GEAR</a>
+        <a href="contact.html">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Intro + Filters -->
+  <div class="container">
+    <div class="page-head">
+      <div class="page-title">Works</div>
+      <div class="filters" role="toolbar" aria-label="Filter works">
+        <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="puppets">Puppets</button>
+        <button class="filter-btn" data-filter="installations">Installations</button>
+        <button class="filter-btn" data-filter="video">Video</button>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <section class="grid" id="grid">
+      <!-- CARD EXAMPLE 1 -->
+      <article class="card" data-tags="puppets">
+        <a href="assets/project1_large.jpg" class="open" data-title="Cardboard Marionette" data-meta="2025 · Puppets">
+          <img class="thumb" src="assets/project1_thumb.jpg" alt="Cardboard marionette on a wooden stick" />
+          <div class="overlay">
+            <div class="label"><div class="title">Cardboard Marionette</div><div class="meta">2025 · Puppets</div></div>
+          </div>
+        </a>
+      </article>
+
+      <!-- CARD EXAMPLE 2 -->
+      <article class="card" data-tags="installations">
+        <a href="assets/project2_large.jpg" class="open" data-title="Market Shadows" data-meta="2024 · Installation">
+          <img class="thumb" src="assets/project2_thumb.jpg" alt="Shadow installation with strings and light" />
+          <div class="overlay">
+            <div class="label"><div class="title">Market Shadows</div><div class="meta">2024 · Installation</div></div>
+          </div>
+        </a>
+      </article>
+
+      <!-- CARD EXAMPLE 3 (Video poster -> large still or video link) -->
+      <article class="card" data-tags="video">
+        <a href="assets/project3_large.jpg" class="open" data-title="Motion Study" data-meta="2023 · Video">
+          <img class="thumb" src="assets/project3_thumb.jpg" alt="Still frame from a motion study video" />
+          <div class="overlay">
+            <div class="label"><div class="title">Motion Study</div><div class="meta">2023 · Video</div></div>
+          </div>
+        </a>
+      </article>
+
+      <!-- Duplicate and change data-tags/title/meta/thumbs as needed -->
+    </section>
+  </div>
+
+  <!-- Lightbox -->
+  <dialog class="lightbox" id="lightbox" aria-label="Artwork preview">
+    <div class="lb-inner">
+      <img class="lb-media" id="lb-media" src="" alt="" />
+      <button class="lb-close" id="lb-close" aria-label="Close preview">✕</button>
+      <div class="lb-caption" id="lb-caption"></div>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo" aria-hidden="true"></span>
+      <div class="footer-brand">lenZ</div>
+      <div class="footer-rights">All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple filters
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+
+        const f = btn.dataset.filter;
+        cards.forEach(card => {
+          const tags = card.getAttribute('data-tags') || '';
+          const show = (f === 'all') || tags.includes(f);
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+
+    // Lightbox (image only for simplicity)
+    const lb = document.getElementById('lightbox');
+    const lbMedia = document.getElementById('lb-media');
+    const lbCaption = document.getElementById('lb-caption');
+    const lbClose = document.getElementById('lb-close');
+
+    document.querySelectorAll('a.open').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const src = link.getAttribute('href');
+        const title = link.dataset.title || '';
+        const meta = link.dataset.meta || '';
+        lbMedia.src = src;
+        lbMedia.alt = title;
+        lbCaption.textContent = title ? `${title} — ${meta}` : meta;
+        lb.showModal();
+      });
+    });
+
+    lbClose.addEventListener('click', () => lb.close());
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lb.open) lb.close(); });
+  </script>
+</body>
+</html>
 
