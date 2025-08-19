@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lenny Filler · Puppet-X — Florence</title>
+  <title>Lenny Filler · Puppet-X — Grandpa</title>
   <link rel="icon" type="image/jpeg" href="../assets/favicon.jpg" />
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; background: #000; color: #fff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
 
-    /* Header (same vibe as main site, on dark bg) */
+    /* Header */
     header { position: sticky; top: 0; z-index: 10; background: #000; border-bottom: 1px solid #222; }
     .nav { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
     .site-title { font-weight: 600; white-space: nowrap; }
@@ -17,73 +17,68 @@
     .menu a { color: #ddd; text-transform: uppercase; opacity: .85; text-decoration: none; }
     .menu a:hover { opacity: 1; }
 
-    /* Back link row */
+    /* Back + title */
     .topbar { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; color:#bbb; }
     .topbar a { color:#bbb; text-decoration: none; }
     .topbar a:hover { color:#fff; }
 
     /* Viewer */
-    main { min-height: calc(100vh - 140px); display: grid; place-items: center; padding: 16px; }
+    main { max-width: 1200px; margin: 0 auto; padding: 16px; }
     .viewer {
-      width: min(92vw, 1200px);
+      width: 100%;
       height: min(72vh, 78vw);
-      background: #111;
-      border: 1px solid #222;
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
+      background: #111; border: 1px solid #222; border-radius: 12px;
+      position: relative; overflow: hidden; display: grid; place-items: center;
+      margin-bottom: 16px;
     }
     .viewer img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
+      max-width: 100%; max-height: 100%;
+      object-fit: contain; display: block;
+      user-select: none; -webkit-user-drag: none;
       transition: opacity .2s ease;
     }
-
-    /* Arrows */
     .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 46px; height: 46px;
-      border-radius: 999px;
-      border: 1px solid #444;
-      background: rgba(0,0,0,.5);
-      color: #fff;
-      display: grid; place-items: center;
-      cursor: pointer;
-      user-select: none;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 999px; border: 1px solid #444;
+      background: rgba(0,0,0,.5); color: #fff; display: grid; place-items: center;
+      cursor: pointer; user-select: none;
     }
+    .arrow.left { left: 10px; } .arrow.right { right: 10px; }
     .arrow:hover { background: rgba(255,255,255,.08); }
-    .arrow:active { transform: translateY(-50%) scale(.98); }
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
-
-    /* Counter */
     .counter {
-      position: absolute; bottom: 10px; left: 50%;
-      transform: translateX(-50%);
-      padding: 6px 10px; border-radius: 999px;
-      font-size: 13px; color:#eee;
-      background: rgba(0,0,0,.5);
-      border: 1px solid #444;
+      position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+      padding: 6px 10px; border-radius: 999px; font-size: 13px; color:#eee;
+      background: rgba(0,0,0,.5); border: 1px solid #444;
     }
-
-    /* Caption (optional; uses filename) */
     .caption {
-      position: absolute; bottom: 10px; right: 10px;
-      font-size: 13px; color:#ddd; background: rgba(0,0,0,.5);
-      border: 1px solid #444; padding: 6px 10px; border-radius: 8px;
+      position: absolute; bottom: 10px; right: 10px; font-size: 13px; color:#ddd;
+      background: rgba(0,0,0,.5); border: 1px solid #444; padding: 6px 10px; border-radius: 8px;
       max-width: 40ch; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
     }
 
+    /* Adaptive thumbnail grid (boxes auto-orient) */
+    .thumbs {
+      display: grid; gap: 10px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    /* cards get h / v / sq at runtime */
+    .thumb { position: relative; border: 1px solid #222; background: #111; overflow: hidden; border-radius: 10px; cursor: pointer; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease; }
+    .thumb:hover img { transform: scale(1.03); }
+    .thumb.h { grid-column: span 6; aspect-ratio: 16/9; }  /* landscape */
+    .thumb.v { grid-column: span 4; aspect-ratio: 3/4; }   /* portrait  */
+    .thumb.sq { grid-column: span 4; aspect-ratio: 1/1; }  /* square    */
+
+    @media (max-width: 900px) {
+      .thumb.h { grid-column: span 12; }
+      .thumb.v, .thumb.sq { grid-column: span 6; }
+    }
+    @media (max-width: 560px) {
+      .thumb.h, .thumb.v, .thumb.sq { grid-column: span 12; }
+    }
+
     /* Footer */
-    footer { border-top: 1px solid #222; background: #000; }
+    footer { border-top: 1px solid #222; background: #000; margin-top: 16px; }
     .footer-inner { max-width: 1200px; margin: 0 auto; padding: 12px 16px 20px; display: grid; place-items: center; gap: 6px; color: #aaa; text-align: center; }
     .footer-logo { width: 64px; height: 64px; border-radius: 50%; border: 1px solid #333; background: #111 center/cover no-repeat; background-image: url("../assets/favicon.jpg"); }
     .footer-brand { font-weight: 600; letter-spacing: .4px; color:#ddd; }
@@ -108,7 +103,7 @@
   <!-- Back + Title -->
   <div class="topbar">
     <a href="../works.html">← Back to Works</a>
-    <div id="albumTitleBar">Florence</div>
+    <div id="albumTitleBar">Grandpa</div>
   </div>
 
   <!-- Viewer -->
@@ -117,10 +112,12 @@
       <button class="arrow left" id="prev" aria-label="Previous image">‹</button>
       <img id="photo" src="" alt="" />
       <button class="arrow right" id="next" aria-label="Next image">›</button>
-
       <div class="counter" id="counter">1 / 1</div>
       <div class="caption" id="caption"></div>
     </div>
+
+    <!-- Adaptive thumbnail boxes -->
+    <section class="thumbs" id="thumbs"></section>
   </main>
 
   <!-- Footer -->
@@ -133,33 +130,30 @@
   </footer>
 
   <script>
-    /* ====== CONFIG: set album title + images here ====== */
-    const albumTitle = "Grandpa (2016)";
+    /* ====== CONFIG per album ====== */
+    const albumTitle = "Grandpa";
     const images = [
-      // Put your real files from /assets here:
+      // put real files from /assets
       "assets/gp1.jpg",
       "assets/gp2.jpg",
       "assets/gp3.jpg",
-      // add more...
     ];
-    /* ================================================ */
+    /* ============================== */
 
-    // Basic state
+    // State + refs
     let i = 0;
-    const photo = document.getElementById('photo');
+    const photo   = document.getElementById('photo');
     const counter = document.getElementById('counter');
     const caption = document.getElementById('caption');
-    const titleBar = document.getElementById('albumTitleBar');
+    const titleEl = document.getElementById('albumTitleBar');
+    const thumbs  = document.getElementById('thumbs');
 
-    function fileNameOnly(path) {
-      const n = path.split('/').pop();
-      return decodeURIComponent(n);
-    }
+    function fileNameOnly(path) { return decodeURIComponent(path.split('/').pop()); }
 
     function show(idx) {
       if (!images.length) return;
       i = (idx + images.length) % images.length;
-      const src = "../" + images[i];   // images live in /assets at repo root
+      const src = "../" + images[i]; // images live in /assets
       photo.style.opacity = 0;
       const img = new Image();
       img.onload = () => {
@@ -168,40 +162,70 @@
         counter.textContent = `${i+1} / ${images.length}`;
         caption.textContent = fileNameOnly(images[i]);
         photo.style.opacity = 1;
+
+        // mark active thumb
+        [...thumbs.children].forEach((el, idx) => el.dataset.active = (idx === i ? "true" : "false"));
+        // auto-scroll active into view (horizontal/vertical agnostic)
+        thumbs.children[i]?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
       };
       img.src = src;
     }
-
-    function next() { show(i + 1); }
-    function prev() { show(i - 1); }
+    function next(){ show(i+1); }
+    function prev(){ show(i-1); }
 
     document.getElementById('next').addEventListener('click', next);
     document.getElementById('prev').addEventListener('click', prev);
 
-    // Keyboard
+    // Keyboard navigation
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft')  prev();
       if (e.key === 'Escape')     window.location.href = '../works.html';
     });
 
-    // Touch (simple swipe)
-    let touchStartX = null;
-    document.getElementById('viewer').addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].clientX;
-    }, {passive: true});
+    // Touch swipe
+    let startX = null;
+    document.getElementById('viewer').addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, {passive:true});
     document.getElementById('viewer').addEventListener('touchend', (e) => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (dx < -30) next();
-      if (dx >  30) prev();
-      touchStartX = null;
-    }, {passive: true});
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (dx < -30) next(); if (dx > 30) prev();
+      startX = null;
+    }, {passive:true});
+
+    // Build adaptive thumbnails
+    function buildThumbs() {
+      images.forEach((path, idx) => {
+        const card = document.createElement('button');
+        card.className = 'thumb';
+        card.type = 'button';
+        card.addEventListener('click', () => show(idx));
+
+        const img = document.createElement('img');
+        img.alt = fileNameOnly(path);
+        img.decoding = 'async';
+        img.loading = 'lazy';
+        img.src = "../" + path;
+
+        // classify orientation when loaded
+        img.addEventListener('load', () => {
+          const w = img.naturalWidth, h = img.naturalHeight;
+          card.classList.remove('h','v','sq');
+          if (!w || !h) { card.classList.add('h'); return; }
+          if (Math.abs(w - h) / Math.max(w, h) < 0.06) card.classList.add('sq');
+          else if (w > h) card.classList.add('h');
+          else card.classList.add('v');
+        });
+
+        card.appendChild(img);
+        thumbs.appendChild(card);
+      });
+    }
 
     // Init
-    titleBar.textContent = albumTitle;
+    titleEl.textContent = albumTitle;
+    buildThumbs();
     show(0);
   </script>
 </body>
 </html>
-
