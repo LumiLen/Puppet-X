@@ -1,1 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lenny Filler · Puppet-X — Contact</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #fff;
+      color: #111;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-title {
+      font-weight: 600;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      font-size: 14px;
+      letter-spacing: 1.2px;
+    }
+    .menu a { text-transform: uppercase; opacity: .85; }
+    .menu a:hover { opacity: 1; }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    main h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1em;
+    }
+    main p {
+      margin-bottom: 2em;
+    }
+
+    /* PHOTO */
+    .profile-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      display: block;
+    }
+
+    /* FORM */
+    form {
+      display: grid;
+      gap: 16px;
+      text-align: left;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    button {
+      padding: 12px 20px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #333;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #e5e5e5;
+      background: #fff;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px 28px;
+      display: grid;
+      place-items: center;
+      gap: 6px;
+      color: #444;
+      text-align: center;
+    }
+    .footer-logo {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #fafafa center/cover no-repeat;
+      background-image: url("assets/favicon.jpg");
+    }
+    .footer-brand {
+      font-weight: 600;
+      letter-spacing: .4px;
+    }
+    .footer-rights {
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <div class="site-title">Lenny Filler · Puppet-X</div>
+      <nav class="menu" aria-label="primary">
+        <a href="index.html">HOME</a>
+        <a href="works.html">WORKS</a>
+        <a href="words.html">WORDS</a>
+        <a href="gear.html">GEAR</a>
+        <a href="contact.html">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <img src="assets/your-photo.jpg" alt="Lenny Filler" class="profile-photo">
+    <h1>Get in Touch</h1>
+    <p>I’m always glad to connect and explore new collaborations.  
+    Feel free to reach out — I’d love to hear from you!</p>
+
+    <form action="mailto:your-email@example.com" method="post" enctype="text/plain">
+      <div>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div>
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo" aria-hidden="true"></span>
+      <div class="footer-brand">Puppet-X</div>
+      <div class="footer-rights">All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
 
