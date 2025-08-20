@@ -1,1 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lenny Filler · Puppet-X — Welding</title>
+  <link rel="icon" type="image/jpeg" href="../assets/favicon.jpg" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #000; color: #fff; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
 
+    /* Header */
+    header { position: sticky; top: 0; z-index: 10; background: #000; border-bottom: 1px solid #222; }
+    .nav { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .site-title { font-weight: 600; white-space: nowrap; }
+    .menu { display: flex; gap: 18px; font-size: 14px; letter-spacing: 1.2px; }
+    .menu a { color: #ddd; text-transform: uppercase; opacity: .85; text-decoration: none; }
+    .menu a:hover { opacity: 1; }
+
+    /* Back + title */
+    .topbar { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; color:#bbb; }
+    .topbar a { color:#bbb; text-decoration: none; }
+    .topbar a:hover { color:#fff; }
+
+    /* Thumbnails only (no viewer on page) */
+    main { max-width: 1200px; margin: 0 auto; padding: 16px; }
+   /* Thumbnails column */
+.thumbs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* space between thumbs */
+}
+
+/* Portrait frames (keep as you had) */
+.thumb {
+  width: min(100%, 8cm);
+  aspect-ratio: 3 / 4;
+  border: 1px solid #222;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111;
+  cursor: pointer;
+
+  /* center content without stretching */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make the whole image visible inside the frame */
+.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;          /* prevent forced stretch */
+  height: auto;         /* prevent forced stretch */
+  object-fit: contain;  /* show full image */
+  background: #000;     /* letterbox color */
+  display: block;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.thumb:hover img { transform: scale(1.01); opacity: .95; }
+
+    /* Lightbox (opens only when a thumb is clicked) */
+    dialog.lightbox {
+      width: min(94vw, 1280px);
+      border: none; padding: 0; border-radius: 12px; overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 70px rgba(0,0,0,.6);
+    }
+    dialog::backdrop { background: rgba(0,0,0,.75); }
+
+    .lb-wrap { position: relative; background:#000; }
+    .lb-img {
+      display: block; width: 100%; height: auto; max-height: 84vh; object-fit: contain; background:#000;
+      user-select: none; -webkit-user-drag: none;
+      transition: opacity .2s ease;
+    }
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 999px;
+      border: 1px solid #444; background: rgba(0,0,0,.5); color:#fff;
+      display: grid; place-items: center; cursor: pointer; user-select: none;
+    }
+    .lb-arrow.left  { left: 10px; }
+    .lb-arrow.right { right: 10px; }
+    .lb-arrow:hover { background: rgba(255,255,255,.08); }
+
+    .lb-counter {
+      position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+      padding: 6px 10px; border-radius: 999px; font-size: 13px; color:#eee;
+      background: rgba(0,0,0,.5); border: 1px solid #444;
+    }
+    .lb-close {
+      position: absolute; top: 10px; right: 10px;
+      border: 1px solid #444; background: rgba(0,0,0,.5); color:#fff;
+      padding: 6px 10px; border-radius: 999px; cursor: pointer;
+    }
+
+    /* Footer */
+    footer { border-top: 1px solid #222; background: #000; margin-top: 16px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 12px 16px 20px; display: grid; place-items: center; gap: 6px; color: #aaa; text-align: center; }
+    .footer-logo { width: 64px; height: 64px; border-radius: 50%; border: 1px solid #333; background: #111 center/cover no-repeat; background-image: url("../assets/favicon.jpg"); }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; color:#ddd; }
+    .footer-rights { font-size: 13px; color: #888; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div class="site-title">Lenny Filler · Puppet-X</div>
+      <nav class="menu" aria-label="primary">
+        <a href="../index.html">Home</a>
+        <a href="../works.html">Works</a>
+        <a href="../words.html">Words</a>
+        <a href="../gear.html">Gear</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Back + Title -->
+  <div class="topbar">
+    <a href="../works.html">← Back to Works</a>
+    <div id="albumTitleBar">Welding</div>
+  </div>
+
+  <!-- Thumbnails ONLY -->
+  <main>
+    <section class="thumbs" id="thumbs"></section>
+  </main>
+
+  <!-- Lightbox (hidden until a thumb is clicked) -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <div class="lb-wrap" id="lbWrap">
+      <img id="lbImg" class="lb-img" alt="" />
+      <button class="lb-arrow left"  id="lbPrev" aria-label="Previous">‹</button>
+      <button class="lb-arrow right" id="lbNext" aria-label="Next">›</button>
+      <div class="lb-counter" id="lbCounter">1 / 1</div>
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo" aria-hidden="true"></span>
+      <div class="footer-brand">lenZ</div>
+      <div class="footer-rights">All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ====== CONFIG per album ====== */
+    const albumTitle = "Grandpa";
+    const images = [
+      "../assets/cplweld.png",
+      "../assets/meweld.jpg",
+      // add more...
+    ];
+    /* ============================== */
+
+    // Title
+    document.getElementById('albumTitleBar').textContent = albumTitle;
+
+    // Build thumbnails
+    const thumbs = document.getElementById('thumbs');
+    images.forEach((src, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'thumb';
+      btn.type = 'button';
+      btn.dataset.index = idx;
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `${albumTitle} – ${src.split('/').pop()}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+
+      btn.appendChild(img);
+      btn.addEventListener('click', () => openLightbox(idx));
+      thumbs.appendChild(btn);
+    });
+
+    // Lightbox logic
+    const dialog  = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbPrev  = document.getElementById('lbPrev');
+    const lbNext  = document.getElementById('lbNext');
+    const lbClose = document.getElementById('lbClose');
+    const lbCounter = document.getElementById('lbCounter');
+    const lbWrap  = document.getElementById('lbWrap');
+
+    let i = 0;
+    function show(idx) {
+      i = (idx + images.length) % images.length;
+      lbImg.style.opacity = 0;
+      const preload = new Image();
+      preload.onload = () => {
+        lbImg.src = preload.src;
+        lbImg.alt = images[i].split('/').pop();
+        lbCounter.textContent = `${i+1} / ${images.length}`;
+        lbImg.style.opacity = 1;
+      };
+      preload.src = images[i];
+    }
+    function next(){ show(i+1); }
+    function prev(){ show(i-1); }
+
+    function openLightbox(startIndex) {
+      show(startIndex);
+      dialog.showModal();
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    }
+    function closeLightbox() {
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+
+    lbNext.addEventListener('click', next);
+    lbPrev.addEventListener('click', prev);
+    lbClose.addEventListener('click', closeLightbox);
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) closeLightbox(); });
+
+    // Keyboard
+    window.addEventListener('keydown', (e) => {
+      if (!dialog.open) return;
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'Escape')     closeLightbox();
+    });
+
+    // Touch swipe in lightbox
+    let startX = null;
+    lbWrap.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, {passive:true});
+    lbWrap.addEventListener('touchend',   (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (dx < -30) next();
+      if (dx >  30) prev();
+      startX = null;
+    }, {passive:true});
+  </script>
+</body>
+</html>
