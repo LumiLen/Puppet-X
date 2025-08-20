@@ -22,51 +22,17 @@
     .topbar a { color:#bbb; text-decoration: none; }
     .topbar a:hover { color:#fff; }
 
-    /* Viewer */
+    /* Thumbnails only (no viewer on page) */
     main { max-width: 1200px; margin: 0 auto; padding: 16px; }
-    .viewer {
-      width: 100%;
-      height: min(72vh, 78vw);
-      background: #111; border: 1px solid #222; border-radius: 12px;
-      position: relative; overflow: hidden; display: grid; place-items: center;
-      margin-bottom: 20px;
-    }
-    .viewer img {
-      max-width: 100%; max-height: 100%;
-      object-fit: contain; display: block;
-      user-select: none; -webkit-user-drag: none;
-      transition: opacity .2s ease;
-    }
-    .arrow {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 46px; height: 46px; border-radius: 999px; border: 1px solid #444;
-      background: rgba(0,0,0,.5); color: #fff; display: grid; place-items: center;
-      cursor: pointer; user-select: none;
-    }
-    .arrow.left { left: 10px; } .arrow.right { right: 10px; }
-    .arrow:hover { background: rgba(255,255,255,.08); }
-    .counter {
-      position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-      padding: 6px 10px; border-radius: 999px; font-size: 13px; color:#eee;
-      background: rgba(0,0,0,.5); border: 1px solid #444;
-    }
-    .caption {
-      position: absolute; bottom: 10px; right: 10px; font-size: 13px; color:#ddd;
-      background: rgba(0,0,0,.5); border: 1px solid #444; padding: 6px 10px; border-radius: 8px;
-      max-width: 40ch; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
-    }
-
-    /* Thumbnails: single centered column, ~12×4 cm each, full image visible */
     .thumbs {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px; /* spacing between thumbs */
+      gap: 12px; /* space between thumbs */
     }
     .thumb {
-      /* ~12×4 cm on wide screens, responsive on small */
       width: min(100%, 12cm);
-      aspect-ratio: 3 / 1;           /* keeps ~12×4 proportion */
+      aspect-ratio: 3 / 1;         /* ~12×4 cm shape */
       border: 1px solid #222;
       border-radius: 10px;
       overflow: hidden;
@@ -78,12 +44,48 @@
     .thumb img {
       width: 100%;
       height: 100%;
-      object-fit: contain;            /* show the whole image inside */
-      background: #000;               /* letterbox/pillarbox color */
+      object-fit: contain;         /* show full image inside the box */
+      background: #000;            /* letterbox/pillarbox color */
       display: block;
       transition: transform .2s ease, opacity .2s ease;
     }
     .thumb:hover img { transform: scale(1.01); opacity: .95; }
+
+    /* Lightbox (opens only when a thumb is clicked) */
+    dialog.lightbox {
+      width: min(94vw, 1280px);
+      border: none; padding: 0; border-radius: 12px; overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 70px rgba(0,0,0,.6);
+    }
+    dialog::backdrop { background: rgba(0,0,0,.75); }
+
+    .lb-wrap { position: relative; background:#000; }
+    .lb-img {
+      display: block; width: 100%; height: auto; max-height: 84vh; object-fit: contain; background:#000;
+      user-select: none; -webkit-user-drag: none;
+      transition: opacity .2s ease;
+    }
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 999px;
+      border: 1px solid #444; background: rgba(0,0,0,.5); color:#fff;
+      display: grid; place-items: center; cursor: pointer; user-select: none;
+    }
+    .lb-arrow.left  { left: 10px; }
+    .lb-arrow.right { right: 10px; }
+    .lb-arrow:hover { background: rgba(255,255,255,.08); }
+
+    .lb-counter {
+      position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+      padding: 6px 10px; border-radius: 999px; font-size: 13px; color:#eee;
+      background: rgba(0,0,0,.5); border: 1px solid #444;
+    }
+    .lb-close {
+      position: absolute; top: 10px; right: 10px;
+      border: 1px solid #444; background: rgba(0,0,0,.5); color:#fff;
+      padding: 6px 10px; border-radius: 999px; cursor: pointer;
+    }
 
     /* Footer */
     footer { border-top: 1px solid #222; background: #000; margin-top: 16px; }
@@ -114,19 +116,21 @@
     <div id="albumTitleBar">Grandpa</div>
   </div>
 
-  <!-- Viewer -->
+  <!-- Thumbnails ONLY -->
   <main>
-    <div class="viewer" id="viewer">
-      <button class="arrow left" id="prev" aria-label="Previous image">‹</button>
-      <img id="photo" src="" alt="" />
-      <button class="arrow right" id="next" aria-label="Next image">›</button>
-      <div class="counter" id="counter">1 / 1</div>
-      <div class="caption" id="caption"></div>
-    </div>
-
-    <!-- Thumbs: fixed ~12×4 cm, full image inside -->
     <section class="thumbs" id="thumbs"></section>
   </main>
+
+  <!-- Lightbox (hidden until a thumb is clicked) -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <div class="lb-wrap" id="lbWrap">
+      <img id="lbImg" class="lb-img" alt="" />
+      <button class="lb-arrow left"  id="lbPrev" aria-label="Previous">‹</button>
+      <button class="lb-arrow right" id="lbNext" aria-label="Next">›</button>
+      <div class="lb-counter" id="lbCounter">1 / 1</div>
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+    </div>
+  </dialog>
 
   <!-- Footer -->
   <footer>
@@ -141,88 +145,93 @@
     /* ====== CONFIG per album ====== */
     const albumTitle = "Grandpa";
     const images = [
-      "assets/gp1.jpg",
-      "assets/gp2.jpg",
-      "assets/gp3.jpg",
+      "../assets/gp1.jpg",
+      "../assets/gp2.jpg",
+      "../assets/gp3.jpg",
       // add more...
     ];
     /* ============================== */
 
-    // State + refs
-    let i = 0;
-    const photo   = document.getElementById('photo');
-    const counter = document.getElementById('counter');
-    const caption = document.getElementById('caption');
-    const titleEl = document.getElementById('albumTitleBar');
-    const thumbs  = document.getElementById('thumbs');
+    // Title
+    document.getElementById('albumTitleBar').textContent = albumTitle;
 
-    function fileNameOnly(path) { return decodeURIComponent(path.split('/').pop()); }
+    // Build thumbnails
+    const thumbs = document.getElementById('thumbs');
+    images.forEach((src, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'thumb';
+      btn.type = 'button';
+      btn.dataset.index = idx;
 
-    function show(idx) {
-      if (!images.length) return;
-      i = (idx + images.length) % images.length;
-      const src = "../" + images[i]; // images live in /assets
-      photo.style.opacity = 0;
-      const img = new Image();
-      img.onload = () => {
-        photo.src = src;
-        photo.alt = `${albumTitle} – ${fileNameOnly(images[i])}`;
-        counter.textContent = `${i+1} / ${images.length}`;
-        caption.textContent = fileNameOnly(images[i]);
-        photo.style.opacity = 1;
-
-        // mark active thumb
-        [...thumbs.children].forEach((el, idx) => el.dataset.active = (idx === i ? "true" : "false"));
-        thumbs.children[i]?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
-      };
+      const img = document.createElement('img');
       img.src = src;
+      img.alt = `${albumTitle} – ${src.split('/').pop()}`;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+
+      btn.appendChild(img);
+      btn.addEventListener('click', () => openLightbox(idx));
+      thumbs.appendChild(btn);
+    });
+
+    // Lightbox logic
+    const dialog  = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
+    const lbPrev  = document.getElementById('lbPrev');
+    const lbNext  = document.getElementById('lbNext');
+    const lbClose = document.getElementById('lbClose');
+    const lbCounter = document.getElementById('lbCounter');
+    const lbWrap  = document.getElementById('lbWrap');
+
+    let i = 0;
+    function show(idx) {
+      i = (idx + images.length) % images.length;
+      lbImg.style.opacity = 0;
+      const preload = new Image();
+      preload.onload = () => {
+        lbImg.src = preload.src;
+        lbImg.alt = images[i].split('/').pop();
+        lbCounter.textContent = `${i+1} / ${images.length}`;
+        lbImg.style.opacity = 1;
+      };
+      preload.src = images[i];
     }
     function next(){ show(i+1); }
     function prev(){ show(i-1); }
 
-    document.getElementById('next').addEventListener('click', next);
-    document.getElementById('prev').addEventListener('click', prev);
-
-    // Keyboard navigation
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft')  prev();
-      if (e.key === 'Escape')     window.location.href = '../works.html';
-    });
-
-    // Touch swipe
-    let startX = null;
-    document.getElementById('viewer').addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, {passive:true});
-    document.getElementById('viewer').addEventListener('touchend', (e) => {
-      if (startX === null) return;
-      const dx = e.changedTouches[0].clientX - startX;
-      if (dx < -30) next(); if (dx > 30) prev();
-      startX = null;
-    }, {passive:true});
-
-    // Build fixed-size thumbs (12×4 cm box, full image inside)
-    function buildThumbs() {
-      images.forEach((path, idx) => {
-        const card = document.createElement('button');
-        card.className = 'thumb';
-        card.type = 'button';
-        card.addEventListener('click', () => show(idx));
-
-        const img = document.createElement('img');
-        img.alt = fileNameOnly(path);
-        img.decoding = 'async';
-        img.loading = 'lazy';
-        img.src = "../" + path;
-
-        card.appendChild(img);
-        thumbs.appendChild(card);
-      });
+    function openLightbox(startIndex) {
+      show(startIndex);
+      dialog.showModal();
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    }
+    function closeLightbox() {
+      dialog.close();
+      document.body.style.overflow = '';
     }
 
-    // Init
-    titleEl.textContent = albumTitle;
-    buildThumbs();
-    show(0);
+    lbNext.addEventListener('click', next);
+    lbPrev.addEventListener('click', prev);
+    lbClose.addEventListener('click', closeLightbox);
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) closeLightbox(); });
+
+    // Keyboard
+    window.addEventListener('keydown', (e) => {
+      if (!dialog.open) return;
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'Escape')     closeLightbox();
+    });
+
+    // Touch swipe in lightbox
+    let startX = null;
+    lbWrap.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, {passive:true});
+    lbWrap.addEventListener('touchend',   (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (dx < -30) next();
+      if (dx >  30) prev();
+      startX = null;
+    }, {passive:true});
   </script>
 </body>
 </html>
