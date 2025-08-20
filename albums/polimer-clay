@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lenny Filler · Puppet-X — Grandpa</title>
+  <title>Lenny Filler · Puppet-X — Polimer clay</title>
   <link rel="icon" type="image/jpeg" href="../assets/favicon.jpg" />
   <style>
     * { box-sizing: border-box; }
@@ -123,7 +123,7 @@
   <!-- Back + Title -->
   <div class="topbar">
     <a href="../works.html">← Back to Works</a>
-    <div id="albumTitleBar">Grandpa</div>
+    <div id="albumTitleBar">Polimer clay</div>
   </div>
 
   <!-- Thumbnails ONLY -->
@@ -146,7 +146,7 @@
   <footer>
     <div class="footer-inner">
       <span class="footer-logo" aria-hidden="true"></span>
-      <div class="footer-brand">lenZ</div>
+      <div class="footer-brand">Puppet-X</div>
       <div class="footer-rights">All rights reserved.</div>
     </div>
   </footer>
@@ -155,9 +155,8 @@
     /* ====== CONFIG per album ====== */
     const albumTitle = "Grandpa";
     const images = [
-      "../assets/gp1.jpg",
-      "../assets/gp2.jpg",
-      "../assets/gp3.jpg",
+      "../assets/grm1.png",
+      "../assets/grm2.png",
       // add more...
     ];
     /* ============================== */
