@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lenny Filler · Puppet-X — Contact</title>
 
-  <!-- FAVICON -->
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
 
   <style>
     * { box-sizing: border-box; }
     html, body {
-      height: 100%;
       margin: 0;
       background: #fff;
       color: #111;
@@ -36,88 +34,58 @@
       align-items: center;
       justify-content: space-between;
     }
-    .site-title {
-      font-weight: 600;
-      letter-spacing: .3px;
-      white-space: nowrap;
-    }
+    .site-title { font-weight: 600; letter-spacing: .3px; white-space: nowrap; }
     .menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 22px;
-      font-size: 14px;
-      letter-spacing: 1.2px;
+      display: flex; flex-wrap: wrap; gap: 22px;
+      font-size: 14px; letter-spacing: 1.2px;
     }
     .menu a { text-transform: uppercase; opacity: .85; }
-    .menu a:hover { opacity: 1; }
+    .menu a:hover, .menu a[aria-current="page"] { opacity: 1; font-weight: 600; }
 
-    /* MAIN CONTENT */
+    /* MAIN */
     main {
       max-width: 800px;
       margin: 60px auto;
       padding: 0 20px;
       text-align: center;
     }
-    main h1 {
-      font-size: 1.5rem;
-      margin-bottom: 1em;
-    }
-    main p {
-      margin-bottom: 2em;
-    }
+    main h1 { font-size: 1.5rem; margin-bottom: 1em; }
 
-    /* PHOTO */
     .profile-photo {
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
+      width: 220px;
+      height: auto;
+      border-radius: 16px; /* rounded corners */
       object-fit: cover;
       margin: 0 auto 20px;
       display: block;
     }
 
-    /* FORM */
     form {
       display: grid;
       gap: 16px;
-      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
     }
-    label {
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 4px;
-      display: block;
-    }
-    input, textarea {
-      width: 100%;
+    input, textarea, button {
+      font: inherit;
       padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 14px;
+      border-radius: 8px;
     }
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
+    textarea { resize: vertical; min-height: 120px; }
     button {
-      padding: 12px 20px;
       background: #111;
       color: #fff;
       border: none;
-      border-radius: 6px;
-      font-size: 14px;
       cursor: pointer;
+      transition: background .2s;
     }
-    button:hover {
-      background: #333;
-    }
+    button:hover { background: #444; }
 
     /* FOOTER */
     footer {
       border-top: 1px solid #e5e5e5;
       background: #fff;
-      margin-top: 60px;
     }
     .footer-inner {
       max-width: 1200px;
@@ -130,22 +98,15 @@
       text-align: center;
     }
     .footer-logo {
-      width: 88px;
-      height: 88px;
+      width: 88px; height: 88px;
       border-radius: 50%;
       overflow: hidden;
       border: 1px solid #ddd;
       background: #fafafa center/cover no-repeat;
       background-image: url("assets/favicon.jpg");
     }
-    .footer-brand {
-      font-weight: 600;
-      letter-spacing: .4px;
-    }
-    .footer-rights {
-      font-size: 13px;
-      color: #666;
-    }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; }
+    .footer-rights { font-size: 13px; color: #666; }
   </style>
 </head>
 <body>
@@ -158,32 +119,30 @@
         <a href="works.html">WORKS</a>
         <a href="words.html">WORDS</a>
         <a href="gear.html">GEAR</a>
-        <a href="contact.html">CONTACT</a>
+        <a href="contact.html" aria-current="page">CONTACT</a>
       </nav>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main>
     <img src="assets/meweld.jpg" alt="Lenny Filler" class="profile-photo">
-    <h1>Get in Touch</h1>
-    <p>I’m always glad to connect and explore new collaborations.  
-    Feel free to reach out — I’d love to hear from you!</p>
 
-    <form action="mailto: naviasaf@gmail.com" method="post" enctype="text/plain">
-      <div>
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div>
-        <label for="email">Your Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div>
-        <label for="message">Your Message</label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-      <button type="submit">Send Message</button>
+    <h1>Let’s Connect</h1>
+    <p>I’m always happy to collaborate with others and explore new ideas together.  
+       Feel free to reach out—I’d love to hear from you!</p>
+
+    <!-- Netlify form -->
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact" />
+      <p style="display:none;">
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
     </form>
   </main>
 
@@ -197,4 +156,3 @@
   </footer>
 </body>
 </html>
-
