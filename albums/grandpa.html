@@ -24,34 +24,42 @@
 
     /* Thumbnails only (no viewer on page) */
     main { max-width: 1200px; margin: 0 auto; padding: 16px; }
-    .thumbs {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px; /* space between thumbs */
-    }
-     .thumb {
-  width: min(100%, 8cm);   /* narrower, portrait shape */
-  aspect-ratio: 3 / 4;     /* vertical ~12×16 cm look */
+   /* Thumbnails column */
+.thumbs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* space between thumbs */
+}
+
+/* Portrait frames (keep as you had) */
+.thumb {
+  width: min(100%, 8cm);
+  aspect-ratio: 3 / 4;
   border: 1px solid #222;
   border-radius: 10px;
   overflow: hidden;
   background: #111;
   cursor: pointer;
-  display: grid;
-  place-items: center;
+
+  /* center content without stretching */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-    }
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;         /* show full image inside the box */
-      background: #000;            /* letterbox/pillarbox color */
-      display: block;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    .thumb:hover img { transform: scale(1.01); opacity: .95; }
+/* Make the whole image visible inside the frame */
+.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;          /* prevent forced stretch */
+  height: auto;         /* prevent forced stretch */
+  object-fit: contain;  /* show full image */
+  background: #000;     /* letterbox color */
+  display: block;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.thumb:hover img { transform: scale(1.01); opacity: .95; }
 
     /* Lightbox (opens only when a thumb is clicked) */
     dialog.lightbox {
