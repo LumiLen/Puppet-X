@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lenny Filler · Puppet-X</title>
 
-  <!-- FAVICON (make sure path/filename matches exactly) -->
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg" />
 
   <style>
@@ -50,20 +49,21 @@
     .menu a { text-transform: uppercase; opacity: .85; }
     .menu a:hover { opacity: 1; }
 
-     <!-- MAIN VIDEO (centered) -->
-  <main id="home">
-    <video 
-      autoplay 
-      muted 
-      playsinline 
-      preload="auto" 
-      style="max-width:600px; width:100%; height:auto; display:block; margin:0 auto;"
-    >
-      <source src="assets/pup.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </main>
-
+    /* MAIN VIDEO IN THE MIDDLE */
+    main {
+      min-height: calc(100vh - 200px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .hero-video {
+      max-width: 600px;   /* adjust if you want larger/smaller */
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      outline: none;
     }
 
     /* FOOTER */
@@ -105,17 +105,31 @@
   <header>
     <div class="nav">
       <div class="site-title">Lenny Filler · Puppet-X</div>
-     <nav class="menu" aria-label="primary">
-  <a href="index.html">HOME</a>
-  <a href="works.html">WORKS</a>
-  <a href="words.html">WORDS</a>
-  <a href="gear.html">GEAR</a>
-  <a href="contact.html">CONTACT</a>
-</nav>
-
+      <nav class="menu" aria-label="primary">
+        <a href="index.html">HOME</a>
+        <a href="works.html">WORKS</a>
+        <a href="words.html">WORDS</a>
+        <a href="gear.html">GEAR</a>
+        <a href="contact.html">CONTACT</a>
       </nav>
     </div>
   </header>
+
+  <!-- MAIN VIDEO (centered) -->
+  <main id="home">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+      defaultMuted
+      poster=""
+    >
+      <source src="assets/pup.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </main>
 
   <!-- FOOTER with favicon and text under it -->
   <footer>
