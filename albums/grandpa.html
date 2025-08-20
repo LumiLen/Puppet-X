@@ -29,7 +29,7 @@
       height: min(72vh, 78vw);
       background: #111; border: 1px solid #222; border-radius: 12px;
       position: relative; overflow: hidden; display: grid; place-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     .viewer img {
       max-width: 100%; max-height: 100%;
@@ -56,26 +56,34 @@
       max-width: 40ch; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
     }
 
-    /* Adaptive thumbnail grid (boxes auto-orient) */
+    /* Thumbnails: single centered column, ~12×4 cm each, full image visible */
     .thumbs {
-      display: grid; gap: 10px;
-      grid-template-columns: repeat(12, 1fr);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px; /* spacing between thumbs */
     }
-    /* cards get h / v / sq at runtime */
-    .thumb { position: relative; border: 1px solid #222; background: #111; overflow: hidden; border-radius: 10px; cursor: pointer; }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease; }
-    .thumb:hover img { transform: scale(1.03); }
-    .thumb.h { grid-column: span 6; aspect-ratio: 16/9; }  /* landscape */
-    .thumb.v { grid-column: span 4; aspect-ratio: 3/4; }   /* portrait  */
-    .thumb.sq { grid-column: span 4; aspect-ratio: 1/1; }  /* square    */
-
-    @media (max-width: 900px) {
-      .thumb.h { grid-column: span 12; }
-      .thumb.v, .thumb.sq { grid-column: span 6; }
+    .thumb {
+      /* ~12×4 cm on wide screens, responsive on small */
+      width: min(100%, 12cm);
+      aspect-ratio: 3 / 1;           /* keeps ~12×4 proportion */
+      border: 1px solid #222;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
     }
-    @media (max-width: 560px) {
-      .thumb.h, .thumb.v, .thumb.sq { grid-column: span 12; }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;            /* show the whole image inside */
+      background: #000;               /* letterbox/pillarbox color */
+      display: block;
+      transition: transform .2s ease, opacity .2s ease;
     }
+    .thumb:hover img { transform: scale(1.01); opacity: .95; }
 
     /* Footer */
     footer { border-top: 1px solid #222; background: #000; margin-top: 16px; }
@@ -116,7 +124,7 @@
       <div class="caption" id="caption"></div>
     </div>
 
-    <!-- Adaptive thumbnail boxes -->
+    <!-- Thumbs: fixed ~12×4 cm, full image inside -->
     <section class="thumbs" id="thumbs"></section>
   </main>
 
@@ -133,10 +141,10 @@
     /* ====== CONFIG per album ====== */
     const albumTitle = "Grandpa";
     const images = [
-      // put real files from /assets
       "assets/gp1.jpg",
       "assets/gp2.jpg",
       "assets/gp3.jpg",
+      // add more...
     ];
     /* ============================== */
 
@@ -165,7 +173,6 @@
 
         // mark active thumb
         [...thumbs.children].forEach((el, idx) => el.dataset.active = (idx === i ? "true" : "false"));
-        // auto-scroll active into view (horizontal/vertical agnostic)
         thumbs.children[i]?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
       };
       img.src = src;
@@ -193,7 +200,7 @@
       startX = null;
     }, {passive:true});
 
-    // Build adaptive thumbnails
+    // Build fixed-size thumbs (12×4 cm box, full image inside)
     function buildThumbs() {
       images.forEach((path, idx) => {
         const card = document.createElement('button');
@@ -206,16 +213,6 @@
         img.decoding = 'async';
         img.loading = 'lazy';
         img.src = "../" + path;
-
-        // classify orientation when loaded
-        img.addEventListener('load', () => {
-          const w = img.naturalWidth, h = img.naturalHeight;
-          card.classList.remove('h','v','sq');
-          if (!w || !h) { card.classList.add('h'); return; }
-          if (Math.abs(w - h) / Math.max(w, h) < 0.06) card.classList.add('sq');
-          else if (w > h) card.classList.add('h');
-          else card.classList.add('v');
-        });
 
         card.appendChild(img);
         thumbs.appendChild(card);
