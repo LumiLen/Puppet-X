@@ -24,44 +24,45 @@
 
     /* Thumbnails only (no viewer on page) */
     main { max-width: 1200px; margin: 0 auto; padding: 16px; }
-   /* Thumbnails column */
-.thumbs {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px; /* space between thumbs */
-}
 
-/* Portrait frames (keep as you had) */
-.thumb {
-  width: min(100%, 8cm);
-  aspect-ratio: 3 / 4;
-  border: 1px solid #222;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #111;
-  cursor: pointer;
+    /* Thumbnails column */
+    .thumbs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px; /* space between thumbs */
+    }
 
-  /* center content without stretching */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    /* Portrait frames */
+    .thumb {
+      width: min(100%, 8cm);
+      aspect-ratio: 3 / 4;
+      border: 1px solid #222;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+      cursor: pointer;
 
-/* Make the whole image visible inside the frame */
-.thumb img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;          /* prevent forced stretch */
-  height: auto;         /* prevent forced stretch */
-  object-fit: contain;  /* show full image */
-  background: #000;     /* letterbox color */
-  display: block;
-  transition: transform .2s ease, opacity .2s ease;
-}
-.thumb:hover img { transform: scale(1.01); opacity: .95; }
+      /* center content without stretching */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* Lightbox (opens only when a thumb is clicked) */
+    /* Show the whole image inside the frame */
+    .thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      background: #000;   /* letterbox color */
+      display: block;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .thumb:hover img { transform: scale(1.01); opacity: .95; }
+
+    /* Lightbox (opens after clicking a thumb) */
     dialog.lightbox {
       width: min(94vw, 1280px);
       border: none; padding: 0; border-radius: 12px; overflow: hidden;
@@ -73,8 +74,7 @@
     .lb-wrap { position: relative; background:#000; }
     .lb-img {
       display: block; width: 100%; height: auto; max-height: 84vh; object-fit: contain; background:#000;
-      user-select: none; -webkit-user-drag: none;
-      transition: opacity .2s ease;
+      user-select: none; -webkit-user-drag: none; transition: opacity .2s ease;
     }
     .lb-arrow {
       position: absolute; top: 50%; transform: translateY(-50%);
@@ -131,7 +131,7 @@
     <section class="thumbs" id="thumbs"></section>
   </main>
 
-  <!-- Lightbox (hidden until a thumb is clicked) -->
+  <!-- Lightbox -->
   <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
     <div class="lb-wrap" id="lbWrap">
       <img id="lbImg" class="lb-img" alt="" />
@@ -153,7 +153,7 @@
 
   <script>
     /* ====== CONFIG per album ====== */
-    const albumTitle = "Grandpa";
+    const albumTitle = "Polimer clay";
     const images = [
       "../assets/grm1.png",
       "../assets/grm2.png",
@@ -231,7 +231,7 @@
       if (e.key === 'Escape')     closeLightbox();
     });
 
-    // Touch swipe in lightbox
+    // Touch swipe
     let startX = null;
     lbWrap.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, {passive:true});
     lbWrap.addEventListener('touchend',   (e) => {
