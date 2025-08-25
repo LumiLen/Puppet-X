@@ -36,18 +36,8 @@
       align-items: center;
       justify-content: space-between;
     }
-    .site-title {
-      font-weight: 600;
-      letter-spacing: .3px;
-      white-space: nowrap;
-    }
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 22px;
-      font-size: 14px;
-      letter-spacing: 1.2px;
-    }
+    .site-title { font-weight: 600; letter-spacing: .3px; white-space: nowrap; }
+    .menu { display: flex; flex-wrap: wrap; gap: 22px; font-size: 14px; letter-spacing: 1.2px; }
     .menu a { text-transform: uppercase; opacity: .85; }
     .menu a:hover { opacity: 1; }
 
@@ -57,20 +47,40 @@
       margin: 60px auto;
       padding: 0 20px;
     }
-    main h1 {
-      font-size: 1.4rem;
-      margin-bottom: 1.2em;
+    main h1 { font-size: 1.4rem; margin-bottom: 1.2em; }
+    main p { margin-bottom: 1em; text-align: justify; }
+
+    /* FLOATING SPOTIFY PLAYER */
+    .floating-player {
+      position: fixed;
+      left: 16px;
+      top: 30vh;            /* feels nicely centered vertically */
+      z-index: 999;
+      background: #000;     /* subtle frame */
+      border: 2px solid #1DB954; /* Spotify green */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      width: 320px;
+      max-width: 85vw;
     }
-    main p {
-      margin-bottom: 1em;
-      text-align: justify;
+    .player-head {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 10px; color: #fff; font-size: 12px; background: #111;
+    }
+    .player-head button {
+      appearance: none; border: 1px solid #333; background: #000; color: #fff;
+      border-radius: 999px; width: 22px; height: 22px; line-height: 20px; cursor: pointer;
+    }
+    .player-head button:hover { background: #222; }
+
+    /* Hide on very small screens so it doesn't cover content */
+    @media (max-width: 600px) {
+      .floating-player { display: none; }
     }
 
     /* FOOTER */
-    footer {
-      border-top: 1px solid #e5e5e5;
-      background: #fff;
-    }
+    footer { border-top: 1px solid #e5e5e5; background: #fff; }
     .footer-inner {
       max-width: 1200px;
       margin: 0 auto;
@@ -82,22 +92,11 @@
       text-align: center;
     }
     .footer-logo {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 1px solid #ddd;
-      background: #fafafa center/cover no-repeat;
-      background-image: url("assets/footfav.jpg");
+      width: 88px; height: 88px; border-radius: 50%; overflow: hidden; border: 1px solid #ddd;
+      background: #fafafa center/cover no-repeat; background-image: url("assets/footfav.jpg");
     }
-    .footer-brand {
-      font-weight: 600;
-      letter-spacing: .4px;
-    }
-    .footer-rights {
-      font-size: 13px;
-      color: #666;
-    }
+    .footer-brand { font-weight: 600; letter-spacing: .4px; }
+    .footer-rights { font-size: 13px; color: #666; }
   </style>
 </head>
 <body>
@@ -108,7 +107,7 @@
       <nav class="menu" aria-label="primary">
         <a href="index.html">HOME</a>
         <a href="works.html">WORKS</a>
-        <a href="words.html">WORDS</a>
+        <a href="words.html" aria-current="page">WORDS</a>
         <a href="gear.html">GEAR</a>
         <a href="contact.html">CONTACT</a>
       </nav>
@@ -118,9 +117,8 @@
   <!-- MAIN CONTENT -->
   <main>
     <h1>Statement of Purpose – Draft</h1>
-    <p> In essence, everything I do is an attempt to interpret experience through a setting that contains one or more characters, and through music that moves me. Sounds awaken in me visions, moments, sensations – and I long to capture that spark of excitement. I want to seize that fleeting instant when song, words, or melody overwhelm me, and grant it eternal life in the form of a puppet that can retell it endlessly.
-
-I enclose these avatars within transparent spheres, like the small glass globes that hold a scene or landscape – and when shaken, tiny particles scatter inside them like the snow of consciousness. Within each sphere, a different moment is preserved – a memory, an experience, a state of mind I have visited. Together, the collection of spheres becomes a shelf of journeys and imaginations – something akin to what Björk once called “emotional landscapes,” though in my case, perhaps more precisely, landscapes of emotion and sensation.
+    <p> In essence, everything I do is an attempt to interpret experience through a setting that contains one or more characters, and through music that moves me. Sounds awaken in me visions, moments, sensations – and I long to capture that spark of excitement. I want to seize that fleeting instant when song, words, or melody overwhelm me, and grant it eternal life in the form of a puppet that can retell it endlessly.</p>
+    <p>I enclose these avatars within transparent spheres, like the small glass globes that hold a scene or landscape – and when shaken, tiny particles scatter inside them like the snow of consciousness. Within each sphere, a different moment is preserved – a memory, an experience, a state of mind I have visited. Together, the collection of spheres becomes a shelf of journeys and imaginations – something akin to what Björk once called “emotional landscapes,” though in my case, perhaps more precisely, landscapes of emotion and sensation.</p>
     <p>My artistic identity has been shaped by my personal history – as an adopted child who grew up in a kibbutz – and by the experience of moving between margins and center, between intimacy and exposure. These formative layers inform the way I perceive the world and approach art. In my practice, I work with puppets, the human body, and movement, seeking to explore how material, form, and symbolic representation can tell stories.</p>
     <p>The themes I engage with revolve around questions of consciousness, nature, spirit, and music, alongside a continuous inquiry into human existence – death and dying, sexuality, intimacy, and solitude. My work reflects on dynamics of power and hierarchy, the tension between silence and the desire to speak, and the ways in which art can transform private experience into shared dialogue. Living with ADHD and a highly visual mode of perception, I am drawn to creating strong visual images that bypass words, activate the senses, and open a space for movement and human encounter.</p>
     <p>My motivation as an artist lies in storytelling through material and movement, while engaging with cultural symbols and representations. Through my work, I aim to question the essence of being human: How do we die? What is intimacy? What does it mean to be human? My practice seeks to give visual and symbolic form to these questions, offering new perspectives on the relationships between individuals, society, and the self.</p>
@@ -128,6 +126,20 @@ I enclose these avatars within transparent spheres, like the small glass globes 
     <p>My vision is to continue developing a personal, unique artistic voice while taking an active role in the wider art field. I aspire to be part of an ongoing artistic dialogue that connects my lived experiences with universal themes, and that bridges different media, disciplines, and communities.</p>
     <p>Ultimately, I see the Master’s program not only as a continuation of my studies, but as a crucial step in transforming my personal artistic research into a journey of collaboration, dialogue, and contribution to the field of contemporary art.</p>
   </main>
+
+  <!-- FLOATING SPOTIFY PLAYER -->
+  <aside class="floating-player" id="spotifyBox" aria-label="Spotify player">
+    <div class="player-head">
+      <span>Now Playing</span>
+      <button type="button" aria-label="Close" onclick="document.getElementById('spotifyBox').style.display='none'">✕</button>
+    </div>
+    <iframe style="border-radius:0; border:0;"
+      src="https://open.spotify.com/embed/track/2vQLInqAZTnnS92NCJ8NxC"
+      width="320" height="152" frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </aside>
 
   <!-- FOOTER -->
   <footer>
@@ -139,4 +151,3 @@ I enclose these avatars within transparent spheres, like the small glass globes 
   </footer>
 </body>
 </html>
-
