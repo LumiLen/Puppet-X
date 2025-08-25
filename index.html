@@ -49,21 +49,50 @@
     .menu a { text-transform: uppercase; opacity: .85; }
     .menu a:hover { opacity: 1; }
 
-    /* MAIN VIDEO IN THE MIDDLE */
+    /* MAIN LAYOUT */
     main {
       min-height: calc(100vh - 200px);
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 40px 20px;
+      gap: 40px; /* space between video and box */
     }
     .hero-video {
-      max-width: 600px;   /* adjust if you want larger/smaller */
+      max-width: 600px;
       width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
       outline: none;
+    }
+
+    /* NOTICE BOX */
+    .notice-box {
+      background: #000;
+      border: 2px solid purple;
+      color: #fff;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.4;
+      opacity: 0;
+      visibility: hidden;
+      animation: blink 3s infinite ease-in-out;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .notice-box.show {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* FOOTER */
@@ -101,7 +130,7 @@
   </style>
 </head>
 <body>
-  <!-- HEADER: Title and menu on the same bar -->
+  <!-- HEADER -->
   <header>
     <div class="nav">
       <div class="site-title">Lenny Filler · Puppet-X</div>
@@ -115,7 +144,7 @@
     </div>
   </header>
 
-  <!-- MAIN VIDEO (centered) -->
+  <!-- MAIN -->
   <main id="home">
     <video
       class="hero-video"
@@ -129,9 +158,14 @@
       <source src="assets/pup.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+
+    <!-- NOTICE BOX -->
+    <div class="notice-box" id="noticeBox">
+      Put on your headphones and enjoy the music unique to each page.
+    </div>
   </main>
 
-  <!-- FOOTER with favicon and text under it -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <span class="footer-logo" aria-hidden="true"></span>
@@ -139,5 +173,14 @@
       <div class="footer-rights">All rights reserved.</div>
     </div>
   </footer>
+
+  <script>
+    // Show the notice box after 5 seconds
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("noticeBox").classList.add("show");
+      }, 5000);
+    });
+  </script>
 </body>
 </html>
